@@ -9,6 +9,7 @@ export const auth = (
 ) => {
 
     const authorization = req.headers.authorization;
+    console.log("Authorization:", authorization);
 
     if (!authorization) {
 
@@ -23,25 +24,29 @@ export const auth = (
 
     try {
 
-        const decoded = jwt.verify(
-            token,
-            process.env.JWT_SECRET as string
-        );
+    const decoded = jwt.verify(
+        token,
+        process.env.JWT_SECRET as string
+    );
 
-        req.user = decoded as {
-            id: number;
-            role: string;
-        };
+    console.log("Decoded:", decoded);
 
-        next();
+    req.user = decoded as {
+        id: number;
+        role: string;
+    };
 
-    } catch {
+    next();
 
-        throw new ApiError(
-            401,
-            "Geçersiz veya süresi dolmuş token."
-        );
+} catch (error) {
 
-    }
+    console.log(error);
+
+    throw new ApiError(
+        401,
+        "Geçersiz veya süresi dolmuş token."
+    );
+
+}
 
 };

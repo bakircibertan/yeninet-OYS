@@ -3,12 +3,14 @@ import { createOlt, deleteOlt, getAllOlts, updateOlt  } from "./olt.controller.j
 import { validate } from "../../middlewares/validate.js";
 import { createOltSchema } from "./validation/olt.validation.js";
 import { auth } from "../../shared/middleware/auth.middleware.js";
+import { authorize } from "../../shared/middleware/authorize.middleware.js";
 
 const router = Router();
 
 router.get(
     "/",
     auth,
+    authorize("ADMIN","TECHNICIAN"),
     getAllOlts
 );
 router.post(
