@@ -10,3 +10,14 @@ export const create = async (data: CreateUserDto) => {
     return user;
 
 };
+
+
+export const findByEmail = async (email: string) => {
+
+    return await prisma.user.findUnique({
+        where: {
+            email,
+        },
+    });
+
+};

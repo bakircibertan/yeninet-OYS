@@ -2,10 +2,15 @@ import { Router } from "express";
 import { createOlt, deleteOlt, getAllOlts, updateOlt  } from "./olt.controller.js";
 import { validate } from "../../middlewares/validate.js";
 import { createOltSchema } from "./validation/olt.validation.js";
+import { auth } from "../../shared/middleware/auth.middleware.js";
 
 const router = Router();
 
-router.get("/", getAllOlts);     
+router.get(
+    "/",
+    auth,
+    getAllOlts
+);
 router.post(
     "/",
     validate(createOltSchema),
