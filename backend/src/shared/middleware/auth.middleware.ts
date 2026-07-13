@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ApiError } from "../errors/ApiError.js";
+import { JwtPayload } from "../types/jwt-payload.js";
 
 export const auth = (
     req: Request,
@@ -31,10 +32,7 @@ export const auth = (
 
     console.log("Decoded:", decoded);
 
-    req.user = decoded as {
-        id: number;
-        role: string;
-    };
+    req.user = decoded as JwtPayload;
 
     next();
 

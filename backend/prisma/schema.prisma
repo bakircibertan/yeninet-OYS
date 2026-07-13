@@ -8,6 +8,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  TECHNICIAN
+}
+
 model Olt {
   id        Int      @id @default(autoincrement())
   name      String
@@ -25,7 +30,7 @@ model User {
   name      String
   email     String   @unique
   password  String
-  role      String   @default("TECHNICIAN")
+  role      Role     @default(TECHNICIAN)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

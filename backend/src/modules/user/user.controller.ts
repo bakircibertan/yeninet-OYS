@@ -86,3 +86,26 @@ export const me = async (
     }
 
 };
+
+export const updateRole = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+
+    try {
+
+        const result = await userService.updateRole(
+            Number(req.params.id),
+            req.body
+        );
+
+        return res.json(result);
+
+    } catch (error) {
+
+        next(error);
+
+    }
+
+};

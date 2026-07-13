@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Role } from "../../../generated/prisma/enums.js"
 
 export const registerSchema = z.object({
 
@@ -22,5 +23,17 @@ export const loginSchema = z.object({
 export const refreshTokenSchema = z.object({
 
     refreshToken: z.string(),
+
+});
+
+
+
+
+export const updateUserRoleSchema = z.object({
+
+    role: z.enum([
+        Role.ADMIN,
+        Role.TECHNICIAN
+    ])
 
 });

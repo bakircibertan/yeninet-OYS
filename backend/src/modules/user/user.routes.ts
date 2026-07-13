@@ -5,6 +5,9 @@ import { loginSchema, refreshTokenSchema, registerSchema ,  } from "./validation
 import { refreshToken } from "./user.controller.js";
 import {me} from "./user.controller.js";
 import { auth } from "../../shared/middleware/auth.middleware.js";
+import { updateRole } from "./user.controller.js";
+import { updateUserRoleSchema } from "../../modules/user/validation/user.validation.js";
+import { authorize } from "../../shared/middleware/authorize.middleware.js";
 const router = Router();
 
 router.post(
@@ -32,4 +35,17 @@ router.get(
     auth,
     me
 );
+
+router.patch(
+    "/:id/role",
+    auth,
+    authorize("ADMIN"),
+    validate(updateUserRoleSchema),
+    updateRole
+);
+
+
+
+
+
 export default router;

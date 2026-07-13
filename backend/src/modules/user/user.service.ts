@@ -8,7 +8,7 @@ import {
     generateAccessToken,
     generateRefreshToken
 } from "../../shared/utils/jwt.js";
-
+import { UpdateUserRoleDto } from "./dto/update-user-role.dto.js";
 
 
 
@@ -102,12 +102,17 @@ export const refreshToken = async (
     token: string
 ) => {
 
-    const decoded = jwt.verify(
-        token,
-        process.env.JWT_REFRESH_SECRET as string
-    ) as {
-        id: number;
-    };
+   const decoded = jwt.verify(
+
+    token,
+
+    process.env.JWT_REFRESH_SECRET as string
+
+) as {
+
+    id:number;
+
+};
 
     const user = await userRepository.findById(
         decoded.id
@@ -158,6 +163,42 @@ export const me = async (
     return {
 
         success: true,
+
+        data: userWithoutPassword,
+
+    };
+
+};
+
+
+export const updateRole = async (
+    id: number,
+    data: UpdateUserRoleDto
+) => {
+
+    const user = await userRepository.findById(id);
+
+    if (!user) {
+
+        throw new ApiError(
+            404,
+            "Kullanıcı bulunamadı."
+        );
+
+    }
+
+    const updatedUser = await userRepository.updateRole(
+        id,
+        data.role
+    );
+
+    const { password, ...userWithoutPassword } = updatedUser;
+
+    return {
+
+        success: true,
+
+        message: "Kullanıcı rolü güncellendi.",
 
         data: userWithoutPassword,
 
